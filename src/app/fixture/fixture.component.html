@@ -1,0 +1,24 @@
+<div class="container bg-light">
+  <div class="row align-center">
+    <div class="col">
+      <button type="button" class="btn btn-primary" [disabled] = "disabledButton" (click) = "askForFixture()">Create Fixture</button>
+      <div class="col" *ngIf="disabledButton">
+        <span class="warn">At least 4 teams are needed and an even amount</span>
+      </div>
+    </div>
+  </div>
+  <div class="col" *ngIf="fixtureDone">
+    <div class="row itemsBlock">
+      <div *ngFor="let item of fixture; index as i" class="col-md-4 col-sm-6 col-12">
+        <div class="shadow-lq card text-center bg-info text-white rounded">
+          <div class="card-body">
+          <h5 class="card-title">Date {{i+1}}</h5>
+            <div *ngFor="let match of item">
+              <p class="card-text">{{teamList[match.local]}} vs {{teamList[match.visitor]}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+   </div>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+<div class="container">
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let team of teamList" [class.selected]="team===teamSelected" (click)="onSelect(team)">
+          {{team}}
+    </li>
+  </ul>
+</div>
