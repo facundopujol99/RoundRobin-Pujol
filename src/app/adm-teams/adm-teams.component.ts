@@ -34,8 +34,8 @@ export class AdmTeamsComponent implements OnInit {
   }
 
   deleteTeam(){
-    console.log(this.listingTeams.teamSelected)
     this.teamListService.deleteTeam(this.listingTeams.teamSelected);
+    this.listingTeams.teamSelected = "";
   }
 
 }

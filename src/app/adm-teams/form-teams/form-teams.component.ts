@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output,EventEmitter } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { TeamsService } from 'src/app/teams.service';
 
 
@@ -10,18 +10,20 @@ import { TeamsService } from 'src/app/teams.service';
 })
 export class FormTeamsComponent implements OnInit {
   teamList = this.teamListService.list;
+  inputNameValue = "";
   @Output() newTeamEvent = new EventEmitter<string>();
   @Output() deleteTeamEvent = new EventEmitter();
 
   @Input() errorDuplicatedTeam;
   @Input() errorMaxAmount;
 
-  AddTeamForm = this.formBuilder.group({"teamName":[null, Validators.required]})
+
 
   constructor(private formBuilder: FormBuilder, private teamListService : TeamsService) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
+
+  AddTeamForm=this.formBuilder.group({"teamName":["",[ Validators.required,this.teamListService.validateName.bind(this.teamListService)]]})
 
   addNewTeam(teamName : string){
     this.teamListService.newTeam(teamName);
@@ -30,5 +32,7 @@ export class FormTeamsComponent implements OnInit {
   deleteTeam(){
     this.deleteTeamEvent.emit();
   }
-
 }
+
+
+

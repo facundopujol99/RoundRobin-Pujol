@@ -1,4 +1,4 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Match } from 'src/match.model';
 
@@ -8,24 +8,30 @@ import { Match } from 'src/match.model';
 export class TeamsService {
 
   constructor() { }
-  list : String[] = ["Danubio","Penarol","Nacional","River","Defensor","Progreso"];
+  list : String[] = [];
 
   listUpdate = new BehaviorSubject<String[]>(this.list);
 
   listObservable = this.listUpdate.asObservable();
 
+  validateName(teamName){
+    teamName=teamName.value;
+    if(this.list.indexOf(teamName)>=0){
+      return {'duplicated':true};
+    }else if(this.list.length>=20){
+      return {'maxReached': true}
+    }else{
+      return null;
+    }
+  }
+
   newTeam(newTeam : string){
     if(this.list.length<20){
       if(this.list.indexOf(newTeam)<0){
         this.list.push(newTeam);
-      }else{
-       return -1;
       }
-    }else{
-      return -2;
     }
     this.listUpdate.next(this.list);
-    return 0;
   }
 
   deleteTeam(selection){

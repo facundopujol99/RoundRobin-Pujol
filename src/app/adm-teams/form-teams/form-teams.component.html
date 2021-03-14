@@ -1,33 +1,39 @@
 <div class="container">
-  <form [formGroup]="AddTeamForm" (ngSubmit)="addNewTeam(teamName.value)">
+  <form [formGroup]="AddTeamForm" class="needs-validation" (ngSubmit)="addNewTeam(teamName.value);AddTeamForm.reset()">
     <div class="container">
         <div class="row align-items-center">
           <label for="teamNameForm" class="form-label">Team Name:</label>
         </div>
-        <div class="row align-items-center">
-          <div class="col">
+        <div class="row">
+          <div class="col-6">
             <div class="row">
-              <input class="form-control" id="teamNameForm" placeholder="Team Name" formControlName="teamName" #teamName required>
+              <input [ngClass]="(AddTeamForm.get('teamName').errors&&AddTeamForm.touched) ? 'form-control is-invalid':'form-control'" type="text" [value]="" id="teamNameForm" placeholder="Team Name" formControlName="teamName" #teamName>
+              <div class="invalid-feedback" *ngIf="AddTeamForm.get('teamName').errors?.duplicated">
+                The team already exists.
+              </div>
+              <div class="invalid-feedback" *ngIf="AddTeamForm.get('teamName').errors?.maxReached">
+                The max amount of teams is 20.
+              </div>
             </div>
           </div>
           <div class="col">
-            <button name="btnSubmit" type="submit" class="btn btn-success" [disabled]="!AddTeamForm.valid"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+            <button name="btnSubmit" id="addButton" type="submit" class="btn btn-success" [disabled]="!AddTeamForm.valid"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
               <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
             </svg></button>
-        </div>
-        <div class="col">
           <button type="button" class="btn btn-danger" (click) = "deleteTeam()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
             <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
             <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
           </svg></button>
         </div>
-        <div class="row align-items-center">
-          <span class="alert alert-danger" *ngIf="errorDuplicatedTeam">
-            The Team Already Exists
-          </span>
-          <span class="alert alert-danger" *ngIf="errorMaxAmount">
-            Reached Max Amount of Teams
-          </span>
+        <div class="row">
+          <div class="col-sm">
+            <span class="alert alert-danger" *ngIf="errorDuplicatedTeam">
+              The Team Already Exists
+            </span>
+            <span class="alert alert-danger" *ngIf="errorMaxAmount">
+              Reached Max Amount of Teams
+            </span>
+          </div>
         </div>
       </div>
     </div>
